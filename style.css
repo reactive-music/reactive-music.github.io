@@ -1,4 +1,5 @@
 body {
+  font-family: "Open Sans";
   background: #F7F7F7;
 }
 ::-webkit-scrollbar {
@@ -21,20 +22,9 @@ body {
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: rgba(255,0,0,0.4);
 }
-h3{
+h2{
+  font-weight: bold;
   text-align:center;
-}
-
-/* emotion detection results & detector log msgs container */
-.col-md-4{
-  max-height:421px;
-  opacity: .94;
-  background-color: #fff;
-  margin: 10px;
-  width: 500px;
-  border: 1px solid #555;
-  overflow:hidden;
-  float:left;
 }
 
 /* "detector log msgs" actual messages container */
@@ -46,13 +36,29 @@ h3{
 }
 
 /* Parent container that holds camera containers within*/
-.camera-box{
-  margin: 10px;
-  border: solid 1px #555;
-  background-color: #fff;
+.camera-box {
+  display: block;
   width:470px;
-  height: 410px;
-  float:left;
+  height: 420px;
+  /*margin-left: 20vw;*/
+  margin: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  -webkit-box-shadow: 0 1px 10px #999;
+  -moz-box-shadow: 0 1px 10px #999;
+  -ms-box-shadow: 0 1px 10px #999;
+  -o-box-shadow: 0 1px 10px #999;
+  box-shadow: 0 1px 10px #999;
+}
+.instructions-box {
+  display: block;
+  width:470px;
+  padding: 5px;
+  margin: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
   -webkit-box-shadow: 0 1px 10px #999;
   -moz-box-shadow: 0 1px 10px #999;
   -ms-box-shadow: 0 1px 10px #999;
@@ -60,7 +66,7 @@ h3{
   box-shadow: 0 1px 10px #999;
 }
 
-/* Subcontainer inside .camera-box that holds camera/detector and buttons*/
+  /* Subcontainer inside .camera-box that holds camera/detector and buttons*/
 #affdex_elements{
   overflow: hidden;
   width:460px;
@@ -68,14 +74,24 @@ h3{
   padding: 10px 0px 50px 10px;
 }
 
+.button-container {
+  display: block;
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* all buttons */
 .bt1, .bt2, .bt3{
+  color: whitesmoke;
   margin-right: 20px;
   margin-top: 10px;
   border:1px solid #999;
   height: 50px;
   width: 50px;
   border-radius: 50%;
+  font-weight: bold;
+  text-shadow: 1px 1px 6px black;
 }
 
 /* button 1*/
