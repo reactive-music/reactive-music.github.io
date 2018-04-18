@@ -1,0 +1,12 @@
+General_Bass will be played no matter what emotion the viewer has. (including no emotion)
+Anger_Piano and Anger_Guitar should be played depend on the person's anger level. When they are played, the other tracks aside general should be muted.
+Happy will be played depend on the person's happy level. Since one probably won't have both anger and happy at the same time, thye exclude each other.
+
+I.E.
+ - Somewhat angry - only Anger_Piano
+ - Very angry - both Anger_Piano and Anger_Guitar
+
+
+ - Somewhat happy - only Happy_Piano
+ - Quite happy - Happy_Piano and Happy_Guitar
+ - Very happy - all the happy tracks.
