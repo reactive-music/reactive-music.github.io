@@ -57,6 +57,22 @@ h2 {
     box-shadow: 0 1px 10px #999;
 }
 
+.emotion-box {
+    text-align: center;
+    display: block;
+    width: 470px;
+    padding: 5px;
+    margin: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 10px #999;
+    -moz-box-shadow: 0 1px 10px #999;
+    -ms-box-shadow: 0 1px 10px #999;
+    -o-box-shadow: 0 1px 10px #999;
+    box-shadow: 0 1px 10px #999;
+}
+
 .instructions-box {
     display: block;
     width: 470px;

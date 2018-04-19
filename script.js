@@ -21,15 +21,80 @@ detector.addEventListener("onInitializeSuccess", function() {
   $("#face_video").css("display", "none");
 });
 
+
+// Sound variables
+var baseAudio1, baseAudio2, happy1, happy2, angry1, angry2, sad1, sad2;
+
+// EMotion toggles
+var happy = false, sad = false, angry = false;
+var stoppingHappy, stoppingSad, stoppingAngry;
+
 function log(node_name, msg) {
-  $(node_name).append("<span>" + msg + "</span><br />")
+  console.log(msg + "\n");
 }
 
 //function executes when Start button is pushed.
 function onStart() {
   if (detector && !detector.isRunning) {
-    $("#logs").html("");
     detector.start();
+
+    // Start audio
+      baseAudio1 = new Howl({
+          src: ['./assets/General_Bass.wav'],
+          loop: true,
+          volume: 0.2,
+      });
+      baseAudio2 = new Howl({
+          src: ['./assets/Standard_Guitar.wav'],
+          loop: true,
+          volume: 0.2,
+      });
+      happy1 = new Howl({
+          src: ['./assets/Happy_Piano.wav'],
+          loop: true,
+          volume: 0.0,
+      });
+
+      happy2 = new Howl({
+          src: ['./assets/Happy_Violin.wav'],
+          loop: true,
+          volume: 0.0,
+      });
+
+      sad1 = new Howl({
+          src: ['./assets/Sad_Cajon.wav'],
+          loop: true,
+          volume: 0.0,
+      });
+
+      sad2 = new Howl({
+          src: ['./assets/Sad_Guitar.wav'],
+          loop: true,
+          volume: 0.0,
+      });
+
+      angry1 = new Howl({
+          src: ['./assets/Anger_Piano.wav'],
+          loop: true,
+          volume: 0.0,
+      });
+
+      angry2 = new Howl({
+          src: ['./assets/Anger_Guitar.wav'],
+          loop: true,
+          volume: 0.0,
+      });
+
+      baseAudio1.play();
+      baseAudio2.play();
+      angry1.play();
+      angry2.play();
+      sad1.play();
+      sad2.play();
+      happy2.play();
+      happy2.play();
+      baseAudio1.fade(0.2, .4, 1000);
+      baseAudio2.fade(0.2, .4, 1000);
   }
   log('#logs', "Clicked the start button");
 }
@@ -40,7 +105,17 @@ function onStop() {
   if (detector && detector.isRunning) {
     detector.removeEventListener();
     detector.stop();
+
   }
+    baseAudio1.stop();
+    baseAudio2.stop();
+    angry1.stop();
+    angry2.stop();
+    sad1.stop();
+    sad2.stop();
+    happy2.stop();
+    happy2.stop();
+
 };
 
 //function executes when the Reset button is pushed.
@@ -71,6 +146,68 @@ detector.addEventListener("onStopSuccess", function() {
   $("#results").html("");
 });
 
+
+function playAngry() {
+    stoppingAngry = false;
+    if(!angry) {
+        angry = true;
+        angry1.fade(0, 1, 1000);
+        angry2.fade(0, 1, 1000);
+    }
+}
+
+function stopAngry() {
+    if(angry) {
+        // setTimeout( function() {
+        //     if(angry && stoppingAngry) {
+                angry = false;
+                angry1.fade(1, 0, 1000);
+                angry2.fade(1, 0, 1000);
+            // }
+        // }, 1000);
+    }
+}
+
+function playHappy() {
+    stoppingHappy = false;
+    if(!happy) {
+        happy = true;
+        happy1.fade(0, 1, 1000);
+        happy2.fade(0, 1, 1000);
+    }
+}
+
+function stopHappy() {
+    if(happy) {
+        happy = false;
+        // setTimeout( function() {
+                happy1.fade(1, 0, 1000);
+                happy2.fade(1, 0, 1000);
+        // }, 1000);
+    }
+}
+
+function playSad() {
+    stoppingSad = false;
+    if(!sad) {
+        sad = true;
+        sad1.fade(0, 1, 1000);
+        sad2.fade(0, 1, 1000);
+    }
+}
+
+function stopSad() {
+    if(sad) {
+        // setTimeout( function() {
+        //     if(sad && stoppingSad) {
+                sad = false;
+                sad1.fade(1, 0, 1000);
+                sad2.fade(1, 0, 1000);
+            // }
+        // }, 1000);
+    }
+}
+
 //Add a callback to receive the results from processing an image.
 //The faces object contains the list of the faces detected in an image.
 //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
@@ -95,6 +232,7 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image,
 
     // Return an emoji of face
     log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
+    $('.emotion-box').html("Current Emotion:\t"+faces[0].emojis.dominantEmoji);
     drawFeaturePoints(image, faces[0].featurePoints);
 
     /* IGNORE- debugging code
@@ -114,54 +252,68 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image,
     // $('IDorCLASSselector').css(....) is jQuery code for changing an elements CSS- more on that here: https://www.w3schools.com/jquery/css_css.asp
     // #face_video_canvas is Affectiva's camera element ID. When using video filter effects this is the element you select to modify with the jQuery code.
 
-    if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128542){ //disappointed
-          $('body').css({'background-color': '#292c85', "transition": "all .1s ease-in"}); // dark gloomy blue
-          $("#face_video_canvas").css("filter", "grayscale(0.7) hue-rotate(270deg)"); //sad blue camera
+    if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128542) { //disappointed
+        $('body').css({'background-color': '#292c85', "transition": "all .1s ease-in"}); // dark gloomy blue
+        $("#face_video_canvas").css("filter", "grayscale(0.7) hue-rotate(270deg)"); //sad blue camera
+        playSad();
+    } else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128563){ //flushed
+        $('body').css({'background-color': '#292c85', "transition": "all .1s ease-in"}); // light pink
+        $("#face_video_canvas").css("filter", "grayscale(0.7) hue-rotate(270deg)"); //sad blue camera
+        playSad();
+    } else {
+        stopSad();
     }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128563){ //flushed
-          $('body').css({'background-color': '#ffb6c1', "transition": "all .1s ease-in"}); // light pink
-          $("#face_video_canvas").css("filter", "hue-rotate(50deg)"); //little more blue
-    }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128535){ //kissing
+
+    if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128535){ //kissing
           $('body').css({'background-color': '#bc1e1b', "transition": "all .1s ease-in"}); //dark heart red
           $("#face_video_canvas").css("filter", "sepia(0.8)"); // sepia
+            playHappy();
     }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128514){ //laughing
-          $('body').css({'background-color': '#c0ffee', "transition": "all .1s ease-in"}); // pretty baby blue
-          $("#face_video_canvas").css("filter", "brightness(5)"); //brightness up- most
+    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128514) { //laughing
+        $('body').css({'background-color': '#c0ffee', "transition": "all .1s ease-in"}); // pretty baby blue
+        $("#face_video_canvas").css("filter", "brightness(5)"); //brightness up- most
+        playHappy();
+    } else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128539) { //stuck out tongue with both eyes open
+        $('body').css({'background-color': '#fffcc9', "transition": "all .1s ease-in"}); // baby yellow
+        $("#face_video_canvas").css("filter", "saturate(3)"); // mild saturation
+        playHappy();
+    }else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128540){ //stuck out tongue with winking eye
+        $('body').css({'background-color': '#5ad', "transition": "all .1s ease-in"}); // pretty, mild blue
+        $("#face_video_canvas").css("filter", "saturate(5)"); // medium saturation
+        playHappy();
     }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128545){ //rage
-          $('body').css({'background-color': '#d43a3a', "transition": "all .1s ease-in"}); // darker but bright red
-          $("#face_video_canvas").css("filter", "saturate(8)"); // heatmap
+    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128521){ //wink
+        $('body').css({'background-color': '#AEA4A4', "transition": "all .1s ease-in"}); //light brownish-purple
+        $("#face_video_canvas").css("filter", "blur(2px) grayscale(.2) opacity(0.8) hue-rotate(20deg)"); // ligh browish-purple blurred out camera
+        playHappy();
+    } else {
+        stopHappy();
     }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128528){ //relaxed- default emoji
+
+    if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128528){ //relaxed- default emoji
           $('body').css({'background-color': '#f7f7f7', "transition": "all .1s ease-in"}); // grey- regular background color
           $("#face_video_canvas").css("filter", "hue-rotate(0deg)"); //normal camera
     }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128561){ //scream
-          $('body').css({'background-color': '#0d50f5', "transition": "all .1s ease-in"}); // typical blue
-          $("#face_video_canvas").css("filter", "blur(7px)"); //blurred camera
-    }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 9786 || faces[0].emojis.dominantEmoji.codePointAt(0) == 128515){ //text-symbol smiley OR emoji open-mouth smiley
-          $('body').css({'background-color': '#fff44f', "transition": "all .1s ease-in"}); // yellow
-          $("#face_video_canvas").css("filter", "brightness(2)"); //brightness up- mild
-    }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128527){ //smirk
+
+    if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128545){ //rage
+          $('body').css({'background-color': '#d43a3a', "transition": "all .1s ease-in"}); // darker but bright red
+          $("#face_video_canvas").css("filter", "saturate(8)"); // heatmap
+        playAngry();
+    } else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128561) { //scream
+        $('body').css({'background-color': '#0d50f5', "transition": "all .1s ease-in"}); // typical blue
+        $("#face_video_canvas").css("filter", "blur(7px)"); //blurred camera
+        playAngry();
+    } else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128527){ //smirk
           $('body').css({'background-color': '#297E63', "transition": "all .1s ease-in"}); // turtle body green
           $("#face_video_canvas").css("filter", "grayscale(50%)"); //half-grayscale
+        playAngry();
+    } else {
+        stopAngry();
     }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128539){ //stuck out tongue with both eyes open
-          $('body').css({'background-color': '#fffcc9', "transition": "all .1s ease-in"}); // baby yellow
-          $("#face_video_canvas").css("filter", "saturate(3)"); // mild saturation
-    }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128540){ //stuck out tongue with winking eye
-          $('body').css({'background-color': '#5ad', "transition": "all .1s ease-in"}); // pretty, mild blue
-          $("#face_video_canvas").css("filter", "saturate(5)"); // medium saturation
-    }
-    else if(faces[0].emojis.dominantEmoji.codePointAt(0) == 128521){ //wink
-          $('body').css({'background-color': '#AEA4A4', "transition": "all .1s ease-in"}); //light brownish-purple
-          $("#face_video_canvas").css("filter", "blur(2px) grayscale(.2) opacity(0.8) hue-rotate(20deg)"); // ligh browish-purple blurred out camera
-    }
+    // if(faces[0].emojis.dominantEmoji.codePointAt(0) == 9786 || faces[0].emojis.dominantEmoji.codePointAt(0) == 128515){ //text-symbol smiley OR emoji open-mouth smiley
+    //       $('body').css({'background-color': '#fff44f', "transition": "all .1s ease-in"}); // yellow
+    //       $("#face_video_canvas").css("filter", "brightness(2)"); //brightness up- mild
+    // }
   }
 });
 
