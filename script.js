@@ -71,11 +71,18 @@ detector.addEventListener("onStopSuccess", function() {
   $("#results").html("");
 });
 
+var initialized_data = false;
+
 //Add a callback to receive the results from processing an image.
 //The faces object contains the list of the faces detected in an image.
 //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
 detector.addEventListener("onImageResultsSuccess", function(faces, image,
   timestamp) {
+    if(!initialized_data) {
+      initValues(faces);
+      initialized_data = true;
+    }
+  updateMusic(faces[0].emotions);
   $('#results').html("");
   log('#results', "Timestamp: " + timestamp.toFixed(2));
   log('#results', "Number of faces found: " + faces.length);

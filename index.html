@@ -28,6 +28,19 @@ around it.
 
 <body>
   <!-- the entire window container -->
+  <audio src="https://raw.githubusercontent.com/reactive-music/reactive-music.github.io/master/assets/Anger_Guitar.wav" id="angry_guitar">
+  </audio>
+  <audio src="https://raw.githubusercontent.com/reactive-music/reactive-music.github.io/master/assets/Anger_Piano.wav" id="angry_piano">
+  </audio>
+  <audio src="https://raw.githubusercontent.com/reactive-music/reactive-music.github.io/master/assets/General_Bass.wav" id="general_bass">
+  </audio>
+  <audio src="https://raw.githubusercontent.com/reactive-music/reactive-music.github.io/master/assets/Happy_Piano.wav" id="happy_piano">
+  </audio>
+  <audio src="https://raw.githubusercontent.com/reactive-music/reactive-music.github.io/master/assets/Happy_Violin.wav" id="happy_violin">
+  </audio>
+  <audio src="https://raw.githubusercontent.com/reactive-music/reactive-music.github.io/master/assets/Standard_Guitar.wav" id="general_guitar">
+  </audio>
+
   <div class="container-fluid">
     <h3>Affectiva JS SDK CameraDetector to track different emotions.</h3>
 
@@ -86,6 +99,7 @@ around it.
   <!-- END: ENTIRE SCREEN container -->
 
 <!-- Connect locally-hosted default affectiva camera script that makes everything work-->
+<script src="/process_data.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

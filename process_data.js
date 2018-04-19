@@ -91,10 +91,10 @@ function happy() {
     }
 }
 
-function happy() {
+function angry() {
     /* Update music for very happy */
     for (var track in AUDIO_TRACKS) {
-        if (track.startsWith("general") || track == "happy_piano") {
+        if (track.startsWith("general") || track == "angry_piano") {
             $("#" + track).prop("volume", 1);
         } else {
             $("#" + track).prop("volume", 0);
@@ -105,6 +105,18 @@ function happy() {
 
 
 function updateMusic(emotions) {
-    /* Changes music tracks in accordance with current emotional significance */
-
+    /* Changes music tracks in accordance with current emotional significance 
+    
+    Primary function to be called once per tick
+    */
+    updateSmoother();
+    if(isVery("happy")) {
+        veryHappy();
+    } else if (isVery("anger")) {
+        veryAngry();
+    } else if (isSignificant("happy")) {
+        happy();
+    } else if (isSignificant("anger")) {
+        angry();
+    }
 }
