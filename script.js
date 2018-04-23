@@ -216,7 +216,7 @@ values[NUM_VALS - 1] = 0;
 var lastUpdatedIdx = -1;
 
 function logValue(value) {
-    /* Updates lastTen with the given value, ejecting oldest value if necessary */
+    /* Updates values with the given value, ejecting oldest value if necessary */
     values[++lastUpdatedIdx % NUM_VALS] = value;
 }
 
@@ -226,7 +226,7 @@ function currAvg() {
     n = h = s = a = 0;
     for(let v of values) {
         if(v == NEUTRAL) n++;
-        else if (v == HAPPY) {h++; console.log("Got a happy");}
+        else if (v == HAPPY) h++;
         else if (v == SAD) s++;
         else if (v == ANGRY) a++;
     }
